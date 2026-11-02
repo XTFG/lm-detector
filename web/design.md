@@ -1,7 +1,7 @@
 ---
 name: fingerpoint-design
 description: 用于 Fingerpoint Detector 的网页工具界面（多卡片工作台、数据长列表、主从浏览）、文档站长文页、浏览器导出的结果图片和链接预览图。读者是逐条核对数字、标识符和百分比的技术用户；目标是中性灰阶表面、单一蓝色强调、像素指纹装饰和无回弹弹簧动效，中英文混排，浅色与深色主题。
-version: 2026-10-30
+version: 2026-11-02
 ---
 
 ## 1. 范围与优先级
@@ -38,6 +38,7 @@ version: 2026-10-30
 - [MUST] 主题菜单是“浅色 / 深色 / 跟随系统”三项单选，标出当前项，默认跟随系统；切换主题或语言不清除页面上已输入的内容。
 - [SHOULD] 顶栏右侧图标：仓库入口用 lucide `GitBranch`，Star 入口用填充的 `Star`，语言切换用 `Languages`，主题按钮显示当前选项对应的 `Sun`、`Moon` 或 `Monitor`；图标 16px，按钮带可读名称。
 - [MUST] 页脚居中，使用 `text-meta` muted 文字，不放像素装饰。
+- [SHOULD] 页脚说明句末的文档链接保持 muted，加 2px 偏移的下划线，悬停变为前景色；BUILD 行的提交哈希不加下划线，只在悬停时变色。（来源：2026-11-02 用户要求加入免责声明入口。）
 
 ### 多卡片工作台
 
@@ -178,6 +179,8 @@ version: 2026-10-30
 - [SHOULD] 禁用：50% 不透明度、`not-allowed` 光标；运行中被锁定的区域整体禁用，不隐藏。
 - [SHOULD] 复制、保存等即时操作用 `Sonner` toast 反馈结果。
 - [SHOULD] 请求读者行动的 toast 用 `toastWithStar` 的 `fp-star-toast`：外观与 Sonner 默认 toast 相同（`popover` 表面、1px 边框、`--radius`、13px 文字，成功时标题前加 `CircleCheck`）；文字下方右对齐一行操作，依次为 muted ghost `sm` 的拒绝、ghost `sm` 的忽略，最右为 `fp-star-link[data-size="sm"]`。拒绝和忽略的文案写明各自的隐藏时长（一周、一次）。读者点过 Star 入口后，同一操作只显示普通 toast；拒绝后一周内也是如此。（来源：2026-10-06 用户要求 Star 请求带忽略和拒绝按钮，并给出两者的文案。）
+- [SHOULD] 须知弹窗用 `DisclaimerDialog`：短说明宽 `sm:max-w-md`，带确认题的长表单宽 `sm:max-w-xl`，不显示右上角关闭按钮。标题下一句 muted 说明，正文为前景色 `text-body` 要点列表。弹窗高度最多为视口动态高度减 32px，正文独立滚动，标题和底部操作区保持可见。`DialogFooter` 的次要操作用 `outline` 链接，primary 确认按钮在最右；短说明初始焦点放确认按钮，长表单放标题。（来源：2026-11-02 用户要求首次访问免责提示和简体中文加强阅读确认。）
+- [SHOULD] 确认题使用原生 `fieldset`、`legend` 和单选框，按一列排列；选项整行可点击，点击区域至少高 44px，单选框使用 primary 强调色。错误提示在对应题目下方用 destructive 正文，进度放在底部操作区上方，用 `text-meta` muted 文字和可访问的状态提示。（来源：2026-11-02 确认表单实现决策，兼顾鼠标、触屏和键盘操作。）
 - [SHOULD] toast 停在右下角：600px 以上右缘与 1440px 内容栏的右缘对齐（离视口右边至少等于页面左右内边距），离底边 32px；600px 及以下左右各 16px、离底边 16px。768px 以下的检测页再抬高 64px，停在固定操作栏上方。（来源：2026-10-06 用户要求 toast 离右下角留出更多距离。）
 - [MUST] 每个可聚焦元素有可见的焦点样式：控件原语用 3px `ring-ring/50` 加 `border-ring`；链接和其他元素用全局 2px `--ring` outline、偏移 2px；第三方控件去掉 outline 时补 2px ring。可滚动区域可以用键盘聚焦。
 
@@ -231,7 +234,7 @@ version: 2026-10-30
 | 控件 | `Button` `Input` `Textarea` `Field` `FieldError` `Switch` `ToggleGroup` `Segmented`（选项 `icon` `recommended`） `Tabs` `Collapsible` | `web/src/components/ui/`、`web/src/components/segmented.tsx` | 表单与操作 | 已实现 |
 | 品牌标识 | `BrandIcon` | `web/src/components/brand-icon.tsx` | `Segmented` 选项 | 已实现 |
 | 网站标识 | 透明插画、`fp-brand-mark` | `web/public/branding/logo.png`、`web/src/assets/branding/` | 网站图标、工具页和文档页顶栏 | 已实现 |
-| 浮层 | `Dialog` `DropdownMenu` `Tooltip` `Sonner` `toastWithStar`（`fp-star-toast`） | `web/src/components/ui/`、`web/src/components/star-prompt.tsx` | 详情、菜单、提示、toast | 已实现 |
+| 浮层 | `Dialog` `DropdownMenu` `Tooltip` `Sonner` `toastWithStar`（`fp-star-toast`） `DisclaimerDialog` | `web/src/components/ui/`、`web/src/components/star-prompt.tsx`、`web/src/components/disclaimer-dialog.tsx` | 详情、菜单、提示、toast、首次访问须知 | 已实现 |
 | 数据反馈 | `Table` `Badge` `Empty` `Skeleton` `Alert`（`default` `warning` `destructive`） `Separator` | `web/src/components/ui/` | 表格、状态、空状态、警告 | 已实现 |
 | 工作台组件 | `SampleCard` `SampleStrip` `StateBadge` `toneClass` `ResultPanel` `ConfidenceBar` `AnimatedPercent` `ApiConfigPanel` `ProxySettings` | `web/src/components/` | 多卡片工作台 | 已实现 |
 | 证据详情 | `TokenizerCard` `TokenizerStripButton` `TokenizerDetails` `ModelCheck`；`fp-custom-tokenizer-candidates` | `web/src/components/tokenizer-panel.tsx`、`web/src/components/tokenizer-claim.tsx`、`web/src/index.css` | 两列证据详情 | 已实现 |

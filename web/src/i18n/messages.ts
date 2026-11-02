@@ -1,3 +1,32 @@
+/** This confirmation flow is offered only in the Simplified Chinese interface. */
+export const zhDisclaimerCheck = {
+  title: '阅读确认',
+  help: '请阅读上方三条声明，再回答以下问题。全部答对后才能确认继续。',
+  progress: '已答对 {count}/3 项',
+  retry: '这个答案与声明不符，请重新阅读上方对应条款。',
+  accept: '我已理解以上三点，继续使用',
+  questions: [
+    {
+      id: 'identity',
+      prompt: '1. 仅凭检测结果，能否证明或否定 API 或模型的真伪？',
+      options: ['能，只要置信度足够高', '不能，结果只是参考库内的统计排序'],
+      answer: 1,
+    },
+    {
+      id: 'evidence',
+      prompt: '2. 指控、投诉或索赔时，应如何使用检测结果？',
+      options: ['结合其他证据，不能把结果作为唯一依据', '只要多测几次，就可以作为唯一依据'],
+      answer: 0,
+    },
+    {
+      id: 'responsibility',
+      prompt: '3. 按照本声明，作者是否对检测结果及其使用和传播承担责任？',
+      options: ['承担责任，有争议时由作者负责', '不承担责任'],
+      answer: 1,
+    },
+  ],
+} as const
+
 export const zh = {
   app: {
     name: 'Fingerpoint Detector',
@@ -17,6 +46,7 @@ export const zh = {
     repository: 'GitHub 仓库：Ikaleio/lm-detector',
     star: '在 GitHub 上为 Ikaleio/lm-detector 点 Star',
     footer: '指纹分析在本浏览器中完成。API 请求按“连接方式”直接发往接口，或经代理转发。本站代理不保存 Key。',
+    disclaimer: '免责声明',
     notFound: '这个页面不存在',
     backHome: '返回检测',
     bankLoading: '正在读取样本库…',
@@ -131,6 +161,15 @@ export const zh = {
   star: {
     dismiss: '忽略一次',
     decline: '丑拒 (忽略一周)',
+  },
+  disclaimer: {
+    title: '使用须知',
+    intro: '本站是作者自用的个人研究项目，公开仅供研究和参考。继续使用即表示你接受以下说明。',
+    reference: '检测结果是样本库内的统计排序，可能出错，不能证明或否定任何 API 或模型的真伪。',
+    providers: '本站不评价任何中转站或服务商。检测由你自行发起，请勿把结果作为指控、投诉或索赔的唯一依据。',
+    liability: '作者不对检测结果，以及任何人对结果的使用和传播承担责任。',
+    full: '阅读完整声明',
+    accept: '我知道了',
   },
   proxy: {
     setting: '连接方式',
@@ -399,6 +438,7 @@ export const en: Messages = {
     repository: 'GitHub repository: Ikaleio/lm-detector',
     star: 'Star Ikaleio/lm-detector on GitHub',
     footer: "The fingerprint analysis runs in this browser. API requests go to the API directly or through a proxy, as set in Connection. This site's proxy does not store keys.",
+    disclaimer: 'Disclaimer',
     notFound: 'This page does not exist',
     backHome: 'Back to detection',
     bankLoading: 'Loading reference library…',
@@ -513,6 +553,15 @@ export const en: Messages = {
   star: {
     dismiss: 'Skip once',
     decline: 'Nope (hide for a week)',
+  },
+  disclaimer: {
+    title: 'Usage notice',
+    intro: "This site is the author's personal research project, public for research and reference only. By continuing, you accept the terms below.",
+    reference: 'A result is a statistical ranking within the reference library. It can be wrong and cannot prove or disprove that any API or model is genuine.',
+    providers: 'This site does not assess any relay or provider. You start each detection yourself. Do not use a result as the only basis for an accusation, complaint, or claim.',
+    liability: 'The author takes no responsibility for results or for how anyone uses or shares them.',
+    full: 'Read the full disclaimer',
+    accept: 'I understand',
   },
   proxy: {
     setting: 'Connection',
