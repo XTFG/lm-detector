@@ -10,6 +10,7 @@ icon: Terminal
 
 ```text
 fpd [detect] [options]        检测（默认命令）
+fpd tokenizer [options]       独立探测分词器并查看请求计数
 fpd sample [options]          采集一个可移植的参考批次
 fpd enroll DIR [options]      校验批次并写入参考库
 fpd retrain --data-dir DIR    离线重训排名器与置信度校准
@@ -17,7 +18,7 @@ fpd retrain --data-dir DIR    离线重训排名器与置信度校准
 
 <Cards>
   <Card title="检测" href="./detect.mdx">随机挑战、多轮检测、保存与离线重新计算。</Card>
-  <Card title="分词器探测" href="./tokenizer.mdx">加上 `--tokenizer` 后识别上游的分词器：参数、终端界面和报告字段。</Card>
+  <Card title="分词器探测" href="./tokenizer.mdx">用 `fpd tokenizer` 独立探测，或加上 `--tokenizer` 随检测运行；支持 JSON 和离线重读。</Card>
   <Card title="采样与续采" href="./sampling.mdx">维护参考库用：用 36 道固定挑战采集参考批次。</Card>
   <Card title="入库与重训" href="./enroll.mdx">维护参考库用：校验批次、写入参考库，再离线重训排名器与置信度校准。</Card>
 </Cards>
@@ -38,6 +39,8 @@ bun run fpd [command] [options]
 ```
 
 运行器会在需要时下载包。下文示例使用 `npx`；使用 Bun 时，把 `npx lmfpd@latest` 换成 `bunx --bun lmfpd@latest`。每个子命令都支持 `--help`，帮助页按类别分组列出参数和示例，并适配窄终端和纯文本输出。
+
+`fpd --help` 集中列出数字指纹检测和独立分词器探测的完整参数、默认值与示例。`fpd tokenizer --help` 显示同一份主帮助。两种命令的并发范围和超时规则分别标明，连接参数和输出参数共用。
 
 ## 环境变量
 
