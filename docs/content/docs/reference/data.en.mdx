@@ -52,6 +52,13 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-11 Switch Gemini 4 Carbon to Vertex US" id="2026-11-11-gemini-4-carbon-vertex">
+    The 36 official reference answers for `gemini-4-carbon` now come from `openrouter/google-vertex/us`. Streaming Chat Completions requests used the same fixed challenges and `low` reasoning effort, with route fallback disabled. All 36 answers completed naturally on the first attempt. The AI Studio batch was withdrawn and archived. The reference bank contains 69 fingerprint identities and 2,560 samples.
+
+    The fixed evaluation collected two groups of three independent answers on the same route. On these exact answers, Carbon moved from second to first in both groups after retraining. First choices for all 136 prior complete groups outside Carbon stayed the same, with 120 top-1 hits and 133 top-3 hits. Both Argon groups still ranked Carbon first. Evaluation covered 138 of 140 groups and 414 of 420 answers, with 122 of 138 complete groups correct.
+
+    Vertex US sampling evidence and the enrollment receipt are saved in `collections/gemini-4-carbon-openrouter-google-vertex-us-low-20261111/`.
+  </Accordion>
   <Accordion title="2026-11-10 Add claude-fable-5.2" id="2026-11-10-claude-fable-5-2">
     Added 36 fixed-challenge answers for `claude-fable-5.2`, bringing the reference bank to 68 fingerprint identities and 2,524 samples. Collection requests `anthropic/claude-fable-5.2` through streaming OpenRouter Chat Completions, with `reasoning_effort=low` and the fixed `openrouter/anthropic` official provider route. Fallbacks are disabled. All 36 answers completed naturally on the first attempt, without truncation. Returned model IDs and Anthropic provider metadata passed checks against the raw responses. The previous 2,488 reference answers are unchanged.
 
