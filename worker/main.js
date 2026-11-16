@@ -1,12 +1,13 @@
 // @ts-check
 /**
- * Fingerpoint API proxy: an HTTPS forwarding proxy for LLM API requests whose endpoint does not allow browser CORS.
+ * Fingerpoint API proxy: a forwarding proxy for LLM API requests whose endpoint does not allow browser CORS.
  * This single file is a complete Cloudflare Worker (`export default { fetch }`). The shared site entry point
  * `api/proxy.ts` and the Vite dev server import `proxyRequest`, so every deployment runs the same code.
  *
  * Request: POST with `Authorization: Bearer <upstream key>` and a JSON body `{ url, format, body }`, where `url` is the
- * complete upstream endpoint and `format` is `openai`, `responses` or `anthropic`. JSON and SSE responses stream back
- * unchanged. The proxy follows no redirects, forwards no cookies and stores no keys.
+ * complete upstream endpoint and `format` is `openai`, `responses` or `anthropic`. The endpoint may use HTTPS or HTTP,
+ * a domain name or a public IP address, and any port. JSON and SSE responses stream back unchanged. The proxy follows
+ * no redirects, forwards no cookies and stores no keys.
  *
  * Cross-origin callers must be listed in `ALLOWED_ORIGINS` (comma-separated origins, or `*`). Same-origin calls, as
  * from a Pages deployment of the web app, need no configuration.
@@ -98,6 +99,33 @@ async function readPayload(request) {
   return payload
 }
 
+/** @param {number[]} address The four numbers of an IPv4 address. */
+const isLocalIpv4 = ([a, b]) => a === 0 || a === 127 || a === 10 || (a === 172 && b >= 16 && b <= 31)
+  || (a === 192 && b === 168) || (a === 169 && b === 254)
+
+/**
+ * Whether a URL host names this machine or a private network: the hosts of `isLocalApiUrl` in `shared/api-url.ts`,
+ * plus the unspecified addresses. The web app sends those from the browser; a relay must never reach them, or any
+ * caller could read the services next to it.
+ * @param {string} host `URL.hostname`, which holds IPv4 addresses in dotted form and IPv6 addresses in brackets.
+ */
+function isLocalHost(host) {
+  const hostname = host.replace(/\.$/, '')
+  if (hostname.startsWith('[')) {
+    const address = hostname.slice(1, -1)
+    // URL writes IPv4-mapped IPv6 addresses as two hexadecimal groups.
+    if (address.startsWith('::ffff:')) {
+      const groups = address.slice(7).split(':')
+      if (groups.length !== 2) return false
+      const high = Number.parseInt(groups[0], 16), low = Number.parseInt(groups[1], 16)
+      return isLocalIpv4([high >> 8, high & 255, low >> 8, low & 255])
+    }
+    return address === '::' || address === '::1' || /^(?:f[cd][0-9a-f]{2}|fe[89ab][0-9a-f]):/.test(address)
+  }
+  if (/^\d+\.\d+\.\d+\.\d+$/.test(hostname)) return isLocalIpv4(hostname.split('.').map(Number))
+  return !hostname.includes('.') || /(?:^|\.)(?:localhost|local|internal|lan|home\.arpa)$/.test(hostname)
+}
+
 /** @param {unknown} value @param {Format} format */
 function upstreamUrl(value, format) {
   /** @type {URL} */
@@ -106,14 +134,11 @@ function upstreamUrl(value, format) {
     if (typeof value !== 'string') throw new Error('not a string')
     url = new URL(value)
   } catch { throw rejection(400, 'The upstream URL is invalid.') }
-  if (url.protocol !== 'https:' || url.port || url.username || url.password || url.search || url.hash
+  if ((url.protocol !== 'https:' && url.protocol !== 'http:') || url.username || url.password || url.search || url.hash
     || !url.pathname.endsWith(ENDPOINT_SUFFIXES[format])) {
-    throw rejection(400, 'Use an HTTPS API endpoint on port 443 without credentials, query parameters or fragments.')
+    throw rejection(400, 'Use an HTTP or HTTPS API endpoint without credentials, query parameters or fragments.')
   }
-  if (!/^[a-z0-9-]+(?:\.[a-z0-9-]+)*\.[a-z]{2,}$/.test(url.hostname)
-    || /(?:^|\.)(?:localhost|local|internal)$/.test(url.hostname)) {
-    throw rejection(400, 'Use a public API hostname.')
-  }
+  if (isLocalHost(url.hostname)) throw rejection(400, 'Use a public API address.')
   return url
 }
 

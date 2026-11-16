@@ -364,7 +364,7 @@ export const fr: Messages = {
     nearestHint: 'Distance relative : 1,00 correspond à l’écart entre les propres échantillons de ce modèle. Plus on s’approche de 1,00, plus la distinction est difficile.',
   },
   errors: {
-    invalid_base_url: 'URL de base invalide ; utilisez HTTPS, ou HTTP pour les adresses de bouclage et du réseau local',
+    invalid_base_url: 'URL de base invalide ; utilisez une adresse HTTP ou HTTPS',
     aborted: 'Arrêté',
     timeout: 'Délai de réponse de l’amont dépassé, réessayez',
     network: 'La requête n’a reçu aucune réponse. Vérifiez la connexion réseau et l’« URL de base ». Avec votre propre Worker, utilisez « Vérifier le proxy » pour vous assurer qu’il est disponible.',

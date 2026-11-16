@@ -1,11 +1,11 @@
 import { compressToEncodedURIComponent } from 'lz-string'
 import workerConfig from '../../../worker/wrangler.json'
+import { REPOSITORY_URL } from './repository'
 
-const REPOSITORY = 'https://github.com/Ikaleio/lm-detector'
 /** The Worker on the default branch, which the Playground import reads. GitHub serves raw files with open CORS. */
-export const WORKER_SOURCE_URL = 'https://raw.githubusercontent.com/Ikaleio/lm-detector/main/worker/main.js'
+export const WORKER_SOURCE_URL = `${REPOSITORY_URL.replace('github.com', 'raw.githubusercontent.com')}/main/worker/main.js`
 /** Deploy to Cloudflare copies `worker/` into a new repository of the user and deploys it with Workers Builds. */
-export const DEPLOY_BUTTON_URL = `https://deploy.workers.cloudflare.com/?url=${REPOSITORY}/tree/main/worker`
+export const DEPLOY_BUTTON_URL = `https://deploy.workers.cloudflare.com/?url=${REPOSITORY_URL}/tree/main/worker`
 const PLAYGROUND_URL = 'https://workers.cloudflare.com/playground'
 
 /**

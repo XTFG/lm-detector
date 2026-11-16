@@ -3,7 +3,7 @@ import { flushSync } from 'react-dom'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router'
 import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
-import { GitBranch, Languages, Monitor, Moon, Star, Sun } from 'lucide-react'
+import { Languages, Monitor, Moon, Sun } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -11,13 +11,12 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { Toaster } from '@/components/ui/sonner'
 import { PixelShader } from '@/components/pixel-shader'
 import { DetectorProgress } from '@/components/detector-progress'
-import { DisclaimerDialog } from '@/components/disclaimer-dialog'
 import brandLogo from '@/assets/branding/logo.webp'
 import { LOCALES, useI18n, type Locale } from '@/i18n'
 import { useMotionPreset } from '@/lib/motion'
 import { BankContext } from '@/lib/bank-context'
 import { docsHref } from '@/lib/docs'
-import { markStarVisited, REPOSITORY_URL } from '@/lib/star'
+import { REPOSITORY_URL } from '@/lib/repository'
 import * as client from '@/lib/client'
 import { loadDetector } from '@/lib/detector'
 import type { Bank } from '@fingerpoint/shared/types'
@@ -161,7 +160,6 @@ export function AppShell({ detect }: { detect: ReactNode }) {
               <img src={brandLogo} alt="" width={32} height={32} className="fp-brand-mark" />
               <span className="fp-brand-text">
                 <span className="fp-brand-title">{t('app.name')}</span>
-                <span className="fp-brand-byline">by Ikaleio</span>
               </span>
             </NavLink>
             <DetectorProgress />
@@ -177,14 +175,6 @@ export function AppShell({ detect }: { detect: ReactNode }) {
             {indicator && <motion.span aria-hidden="true" className="fp-nav-indicator" initial={false} animate={indicator} transition={reduced ? { duration: 0 } : smooth} />}
           </nav>
           <div className="fp-topbar-actions flex items-center gap-1 justify-self-end">
-            <a className="fp-repository-link" href={REPOSITORY_URL} target="_blank" rel="noopener noreferrer" aria-label={t('app.repository')} title={t('app.repository')}>
-              <GitBranch className="size-4" aria-hidden="true" />
-              <span>Ikaleio/lm-detector</span>
-            </a>
-            <a className="fp-repository-star" href={REPOSITORY_URL} target="_blank" rel="noopener noreferrer" aria-label={t('app.star')} title={t('app.star')} onClick={markStarVisited}>
-              <Star aria-hidden="true" />
-              <span>Star</span>
-            </a>
             <LanguageMenu />
             <ThemeToggle />
           </div>
@@ -199,10 +189,7 @@ export function AppShell({ detect }: { detect: ReactNode }) {
         </BankBoundary>
       </main>
       <footer className="fp-footer text-meta text-muted-foreground">
-        <p>
-          {t('app.footer')}{' '}
-          <a href={docsHref(locale, 'disclaimer')} className="underline underline-offset-2 hover:text-foreground">{t('app.disclaimer')}</a>
-        </p>
+        <p>{t('app.footer')}</p>
         <p className="fp-mono mt-1">
           BUILD{commit && <> <a href={`${REPOSITORY_URL}/commit/${commit}`} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">{commit}</a></>}
           {' ('}
@@ -212,8 +199,6 @@ export function AppShell({ detect }: { detect: ReactNode }) {
         </p>
       </footer>
       <Toaster position="bottom-right" offset={toastOffset} mobileOffset={toastMobileOffset} />
-      {/* Embedded previews such as Umami heatmaps need an unobstructed page. */}
-      {window.self === window.top && <DisclaimerDialog />}
     </div>
   )
 }

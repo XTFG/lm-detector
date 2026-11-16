@@ -11,6 +11,7 @@ import { layoutOptions } from '@/lib/layout.shared'
 import { openapi } from '@/lib/openapi.server'
 import { docsBase, pageImageUrl, pageMarkdownUrl, repository, repositoryUrl, siteOrigin } from '@/lib/shared'
 import { docs, source } from '@/lib/source'
+import { useDeployedAddress } from '@/lib/use-deployed-address'
 import { localeOf } from '@/lib/urls'
 
 export async function loader({ params, request }: Route.LoaderArgs) {
@@ -56,6 +57,7 @@ function Content({ path, markdownUrl, lastModified, openapiData }: { path: strin
   if (!page) throw new Error(`Unknown page: ${path}`)
   const { toc } = use(page.load())
   const Body = page.body
+  useDeployedAddress()
   return (
     <DocsPage toc={toc} full={page.full} tableOfContent={{ style: 'clerk' }} className="sm:px-6 md:px-8 md:pt-6 xl:pt-6">
       <h1 className="text-h1">{page.title}</h1>

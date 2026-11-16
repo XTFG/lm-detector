@@ -4,7 +4,6 @@ import { Info, TriangleAlert } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { PixelShader } from '@/components/pixel-shader'
-import { SponsorLink } from '@/components/sponsor-link'
 import type { Mode } from '@/components/sample-card'
 import { useI18n } from '@/i18n'
 import { brandLogos } from '@/lib/brand-logos'
@@ -77,7 +76,7 @@ export function ResultPanel({ result, anomalous, mode, onReplacePrompts }: { res
                 : <AnimatedPercent value={topConfidence} className="text-display-number" />}
               <span className="text-meta text-muted-foreground">{t('detect.confidence')}</span>
               <span className="text-meta text-muted-foreground">
-                {t('detect.resultSourceBefore')}<span className="fp-mono">lm.ikale.io</span>{t('detect.resultSourceAfter')}
+                {t('detect.resultSourceBefore')}<span className="fp-mono">{window.location.host}</span>{t('detect.resultSourceAfter')}
               </span>
             </div>
           </div>
@@ -106,12 +105,7 @@ export function ResultPanel({ result, anomalous, mode, onReplacePrompts }: { res
           <AlertDescription>{t('detect.astraNoteBody')}</AlertDescription>
         </Alert>
       )}
-      {!unscorable && (
-        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 text-body">
-          <p className="text-muted-foreground">{result.used_outputs < 3 ? t('detect.partialNote', { n: result.used_outputs }) : t('detect.rankingNote')}</p>
-          <SponsorLink slot="result" />
-        </div>
-      )}
+      {!unscorable && <p className="text-body text-muted-foreground">{result.used_outputs < 3 ? t('detect.partialNote', { n: result.used_outputs }) : t('detect.rankingNote')}</p>}
       {!unscorable && (
         <motion.ol className="fp-card px-4" variants={reduced ? undefined : listStagger} initial={reduced ? false : 'hidden'} animate="show" aria-label={t('detect.result')}>
           {rows.map((r, i) => {

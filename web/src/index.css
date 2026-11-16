@@ -63,7 +63,7 @@
 .fp-cli-command code span { color: var(--primary); font-weight: 600; }
 .fp-cli-command > svg { color: var(--muted-foreground); }
 .fp-cli-command:hover > svg { color: var(--primary); }
-.fp-cli-resources { display: flex; flex: 1 0 100%; align-items: center; min-width: 0; gap: .75rem; }
+.fp-cli-resources { display: flex; flex: 1 0 auto; align-items: center; min-width: 0; gap: .75rem; }
 .fp-cli-links { display: inline-flex; flex-shrink: 0; align-items: center; gap: .75rem; margin-inline-start: auto; }
 @media (min-width: 640px) { .fp-cli-resources { gap: 1.5rem; } }
 @media (min-width: 1280px) {

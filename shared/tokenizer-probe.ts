@@ -32,7 +32,7 @@ export interface TokenizerRun {
   error?: CodedError
 }
 export interface ProbeOptions {
-  /** Complete endpoint URL. The web app allows HTTPS only; the CLI also accepts HTTP. */
+  /** Complete endpoint URL, HTTP or HTTPS. */
   url: string
   transport: CompletionTransport
   signal?: AbortSignal

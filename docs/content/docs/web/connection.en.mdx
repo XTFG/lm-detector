@@ -14,7 +14,7 @@ These addresses always use a direct browser connection, regardless of the connec
 
 For a local address, Connection shows Direct and disables the connection options. The Worker configuration is hidden. The saved connection setting for public APIs stays unchanged and reappears when you enter a public API address.
 
-Supported local addresses include `127.0.0.0/8`, `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `169.254.0.0/16`, IPv6 loopback, unique local addresses, and link-local addresses. Single-label hostnames and names under `localhost`, `.localhost`, `.local`, `.internal`, `.lan`, and `.home.arpa` are also accepted. Other addresses still require HTTPS. Custom domains that resolve to private IP addresses still require HTTPS.
+Supported local addresses include `127.0.0.0/8`, `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `169.254.0.0/16`, IPv6 loopback, unique local addresses, and link-local addresses. Single-label hostnames and names under `localhost`, `.localhost`, `.local`, `.internal`, `.lan`, and `.home.arpa` are also accepted. Public APIs may also use HTTP, an IP address, and a custom port, for example `http://203.0.113.10:3000/v1/`. A page served over HTTPS cannot call a public HTTP API directly, so such an address has to go through a proxy. An HTTP request is not encrypted between the proxy and the API, so the key travels in plain text.
 
 ### OPTIONS preflight returns 401
 

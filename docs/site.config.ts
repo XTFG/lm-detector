@@ -7,8 +7,19 @@
  * llms.txt all hold the public paths.
  */
 export const docsBase = normalizeBase(process.env.DOCS_BASE ?? '/docs')
-/** The public origin for absolute URLs in Open Graph tags and the Markdown twins, set with `SITE_ORIGIN`. */
-export const siteOrigin = normalizeOrigin(process.env.SITE_ORIGIN ?? 'https://lm.ikale.io')
+/**
+ * The public origin for absolute URLs in Open Graph tags and the Markdown twins, set with `SITE_ORIGIN`. Vercel
+ * builds without it use the project's production domain.
+ */
+export const siteOrigin = normalizeOrigin(process.env.SITE_ORIGIN
+  ?? (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'https://lm.ikale.io'))
+/** The detector's public address without a trailing slash: the origin plus the sub-path above the docs, if any. */
+export const siteUrl = `${siteOrigin}${docsBase.replace(/\/docs$/, '')}`
+/**
+ * The docs content names the site as `lm.ikale.io`. This puts the address of this deployment in its place, with the
+ * scheme where the text has one, so pages, Markdown twins and the search index name the site they are served from.
+ */
+export const withSiteAddress = (text: string) => text.replace(/(https:\/\/)?lm\.ikale\.io/g, (_, scheme?: string) => scheme ? siteUrl : siteUrl.replace(/^https?:\/\//, ''))
 /**
  * The preview image of the detector's home page, relative to `docsBase`. The docs build renders it next to the pages'
  * images, and web/vite.config.ts points the detector's Open Graph tags at it.

@@ -1,13 +1,12 @@
 import { useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { Link, useLocation } from 'react-router'
 import { Menu } from '@base-ui/react/menu'
-import { Check, GitBranch, Languages, Monitor, Moon, Star, Sun } from 'lucide-react'
+import { Check, Languages, Monitor, Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { markStarVisited } from '../../../web/src/lib/star'
 import brandLogo from '../../../web/src/assets/branding/logo.webp'
 import type { Locale } from '@/lib/i18n'
 import { siteText } from '@/lib/layout.shared'
-import { appUrl, docsBase, repositoryUrl } from '@/lib/shared'
+import { appUrl, docsBase } from '@/lib/shared'
 import { localizedUrl, switchLocale } from '@/lib/urls'
 
 const homeUrl = localizedUrl(docsBase)
@@ -100,14 +99,6 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           {indicator && <span aria-hidden="true" className="fp-nav-indicator" style={{ width: indicator.width, transform: `translateX(${indicator.x}px)` }} />}
         </nav>
         <div className="fp-topbar-actions flex items-center gap-1 justify-self-end">
-          <a className="fp-repository-link" href={repositoryUrl} target="_blank" rel="noopener noreferrer" aria-label={text.repository} title={text.repository}>
-            <GitBranch className="size-4" aria-hidden="true" />
-            <span>Ikaleio/lm-detector</span>
-          </a>
-          <a className="fp-repository-star" href={repositoryUrl} target="_blank" rel="noopener noreferrer" aria-label={text.star} title={text.star} onClick={markStarVisited}>
-            <Star aria-hidden="true" />
-            <span>Star</span>
-          </a>
           <Link
             to={switchLocale(pathname, docsBase, otherLocale)}
             hrefLang={otherLocale === 'zh' ? 'zh-CN' : 'en'}

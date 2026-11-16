@@ -5,7 +5,7 @@ export const docsBase = import.meta.env.VITE_DOCS_BASE
 /** The detector sits one level above the docs, whatever sub-path the site is deployed under. */
 export const appUrl = `${docsBase.replace(/\/[^/]+$/, '')}/`
 export const siteOrigin = import.meta.env.VITE_SITE_ORIGIN
-export const repository = { user: 'Ikaleio', repo: 'lm-detector', branch: 'main', contentDir: 'docs/content/docs' }
+export const repository = { user: 'XTFG', repo: 'lm-detector', branch: 'main', contentDir: 'docs/content/docs' }
 export const repositoryUrl = `https://github.com/${repository.user}/${repository.repo}`
 
 const markdownUrl = localizedUrl(docsBase, 'llms.mdx')

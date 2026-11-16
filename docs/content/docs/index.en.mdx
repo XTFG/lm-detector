@@ -26,7 +26,7 @@ A relay or third-party API may claim to serve one model while actually routing t
 - **Traceable data maintenance**: `fpd sample`, `fpd enroll`, and `fpd retrain` handle sampling, enrollment, and offline retraining. Failed records and previous attempts are always kept.
 
 <Callout type="warn" title="Results rank the reference bank only">
-  Detection results are a **closed-set ranking within the reference bank**. A model outside the bank still receives a "closest" candidate, and neither ranking scores nor confidence prove identity. To judge whether a channel is trustworthy, keep request parameters fixed, repeat several rounds, and combine the result with other evidence. See also the [disclaimer](./disclaimer.mdx).
+  Detection results are a **closed-set ranking within the reference bank**. A model outside the bank still receives a "closest" candidate, and neither ranking scores nor confidence prove identity. To judge whether a channel is trustworthy, keep request parameters fixed, repeat several rounds, and combine the result with other evidence.
 </Callout>
 
 ## About these docs
@@ -35,4 +35,4 @@ The docs are built with the repository and published under `/docs` of the detect
 
 ## Acknowledgments
 
-Thanks to [xqy2006/ModelTrace](https://github.com/xqy2006/ModelTrace) for the algorithmic ideas and part of the original data. The project is released under the [MIT](https://github.com/Ikaleio/lm-detector/blob/main/LICENSE) license.
+Thanks to [xqy2006/ModelTrace](https://github.com/xqy2006/ModelTrace) for the algorithmic ideas and part of the original data. The project is released under the [MIT](https://github.com/XTFG/lm-detector/blob/main/LICENSE) license.

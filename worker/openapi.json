@@ -3,8 +3,8 @@
   "info": {
     "title": "Fingerpoint API proxy",
     "version": "1.0.0",
-    "description": "A transparent HTTPS relay for LLM API requests from browsers, implemented by `worker/main.js`. The site proxy at `/api/proxy` accepts same-origin calls only; a self-deployed Worker also accepts the origins listed in `ALLOWED_ORIGINS` and answers on any path.",
-    "license": { "name": "MIT", "url": "https://github.com/Ikaleio/lm-detector/blob/main/LICENSE" }
+    "description": "A transparent relay for LLM API requests from browsers, implemented by `worker/main.js`. The site proxy at `/api/proxy` accepts same-origin calls only; a self-deployed Worker also accepts the origins listed in `ALLOWED_ORIGINS` and answers on any path.",
+    "license": { "name": "MIT", "url": "https://github.com/XTFG/lm-detector/blob/main/LICENSE" }
   },
   "servers": [
     { "url": "https://lm.ikale.io", "description": "Site proxy, for pages served from lm.ikale.io" },
@@ -45,7 +45,7 @@
               "text/event-stream": { "schema": { "type": "string", "description": "The upstream SSE stream." } }
             }
           },
-          "400": { "$ref": "#/components/responses/Error", "description": "The body is not a JSON object, the protocol is unsupported, the model is missing, or the upstream URL is not a public HTTPS endpoint of the protocol." },
+          "400": { "$ref": "#/components/responses/Error", "description": "The body is not a JSON object, the protocol is unsupported, the model is missing, or the upstream URL is not a public HTTP or HTTPS endpoint of the protocol." },
           "401": { "$ref": "#/components/responses/Error", "description": "The `Authorization: Bearer` header is missing." },
           "403": { "$ref": "#/components/responses/Forbidden" },
           "413": { "$ref": "#/components/responses/Error", "description": "The request body exceeds 128 KiB." },
@@ -85,7 +85,7 @@
           "url": {
             "type": "string",
             "format": "uri",
-            "description": "The complete upstream endpoint: HTTPS on port 443, a public host name, no credentials, query or fragment, ending in `/chat/completions`, `/responses` or `/messages` for the chosen format.",
+            "description": "The complete upstream endpoint: HTTP or HTTPS on any port, a public host name or IP address, no credentials, query or fragment, ending in `/chat/completions`, `/responses` or `/messages` for the chosen format.",
             "examples": ["https://api.example.com/v1/chat/completions"]
           },
           "format": { "type": "string", "enum": ["openai", "responses", "anthropic"], "description": "Chat Completions, Responses or Messages." },
